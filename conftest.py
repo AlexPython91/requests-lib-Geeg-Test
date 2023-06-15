@@ -2,38 +2,23 @@ import pytest
 import requests
 import yaml
 
-
-with open('config.yaml') as f:
-    data = yaml.safe_load(f)
-user = data['user']
-password = data['password']
-title = data['title']
-description = data['description']
-content = data['content']
+with open("config.yaml") as f:
+    user_set = yaml.safe_load(f)
 
 
 @pytest.fixture()
 def login():
-    req = requests.post('https://test-stand.gb.ru/gateway/login', data={'username': user, 'password': password})
-    return req.json()['token']
+    response = requests.post(user_set['url'], data={'username': user_set['username'], 'password': user_set['password']})
+    response.encoding = 'utf-8'
+    return response.json()['token']
 
 
 @pytest.fixture()
-def create_new_post():
-    create_post = requests.post('https://test-stand.gb.ru/gateway/posts', data={'title': title,
-                                                                                'description': description,
-                                                                                'content': content})
-    return create_post.json()['data']
+def search_text():
+    """Страницы постов НЕ пользователя меняются, тест 2 может упасть в зависимости от описания поста"""
+    return 'В своём стремлении улучшить пользовательский опыт м'
 
 
 @pytest.fixture()
-def check_text1():
-    """
-    При прогоне теста запрашиваемый контент меняется на странице. Тест может падать.
-    """
-    return 'test_content'
-
-
-@pytest.fixture()
-def check_text2():
-    return 'Описание поста'
+def description():
+    return 'New post for pytest in python'
