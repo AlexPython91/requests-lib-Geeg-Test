@@ -21,4 +21,4 @@ def search_text():
 
 @pytest.fixture()
 def description():
-    return 'New post for pytest in python'
+    return 'Description of the new test post'
