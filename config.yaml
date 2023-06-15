@@ -1,5 +1,9 @@
-user: 'ivanivanov697'
+wsdl: "https://speller.yandex.net/services/spellservice?WSDL"
+url: "https://test-stand.gb.ru/gateway/login"
+posts: "https://test-stand.gb.ru/api/posts"
+users: "https://test-stand.gb.ru/api/users"
+username: 'ivanivanov697'
 password: 'bb5e16295e'
-title: 'Новый пост'
-description: 'Описание поста'
-content: 'Содержимое поста'
+title: 'New post for test 3'
+description: 'Description of the new test post'
+content: 'You can add any content here'
