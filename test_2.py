@@ -12,29 +12,21 @@
  'content': 'test_content'
 """
 
+
+import yaml
 import requests
 
-
-def get_posts(token):
-    get = requests.get('https://test-stand.gb.ru/api/posts', headers={'X-Auth-Token': token}, params={'owner': 'notMe'})
-    content_list = [i['content'] for i in get.json()['data']]
-    return content_list
+with open("config.yaml") as f:
+    user_set = yaml.safe_load(f)
 
 
-def create_post(token):
-    post = requests.post('https://test-stand.gb.ru/gateway/posts', headers={'X-Auth-Token': token})
-    return post.json()
+def posts(token):
+    response = requests.get(user_set['posts'], headers={'X-Auth-Token': token}, params={'owner': 'notMe', 'page': 2})
+    listTitle = []
+    for i in response.json()['data']:
+        listTitle.append(i['title'])
+    return listTitle
 
 
-def get_new_post(token):
-    get_my_post = requests.get('https://test-stand.gb.ru/api/posts', headers={'X-Auth-Token': token})
-    description_in_my_post = [i['description'] for i in get_my_post.json()['data']]
-    return description_in_my_post
-
-
-def test_step2(login, check_text1):
-    assert check_text1 in get_posts(login)
-
-
-def test_step3(login, check_text2):
-    assert check_text2 in get_new_post(login)
+def test_step2(login, search_text):
+    assert search_text in posts(login)
